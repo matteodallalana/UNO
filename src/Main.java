@@ -20,20 +20,18 @@ public class Main {
         mazzo.push(treG);
 
         System.out.println(mazzo.toString());
-
-        mazzo.pop();
-        System.out.println(mazzo.toString());
-
-        mazzo.pop();
-        System.out.println(mazzo.toString());
-
-        mazzo.push(quattroG);
-        System.out.println(mazzo.toString());
-
-        mazzo.push(cinqueG);
-        System.out.println(mazzo.toString());
-
-        giocatore.play(1);
         System.out.println(giocatore.toString());
+
+        giocatore.playWithIndex(1);
+        System.out.println(giocatore.toString());
+
+        mazzo.insert(1, quattroG);
+        System.out.println(mazzo.toString());
+
+        System.out.println(mazzo.size());
+
+        mazzo.shuffle();
+        System.out.println(mazzo.toString());
+
     }
 }

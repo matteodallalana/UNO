@@ -1,9 +1,17 @@
-public class Card extends Node{
+public class Card {
     private int value;
     private Color color;
 
     public Card(int value, Color c){
         this.value = value;
+        this.color = c;
+    }
+
+    public void setValue(int v){
+        this.value = v;
+    }
+
+    public void setColor(Color c){
         this.color = c;
     }
 
