@@ -1,15 +1,15 @@
 import java.util.Random;
 
-public class Deck extends List {
+public class Deck<Card> extends List<Card> {
     public Deck() {
         super();
     }
 
-    public void push(Card g) {
+    public void push(Node<Card> g) {
         this.addTail(g);
     }
 
-    public Node pop() {
+    public Node<Card> pop() {
         return this.removeTail();
     }
 
@@ -19,12 +19,12 @@ public class Deck extends List {
             return;
         }
 
-        Card[] carte = new Card[n];
-        Node cur = this.getHead();
+        Node<Card>[] carte = new Node[this.size()];
+        Node<Card> cur = this.getHead();
         int index = 0;
 
         while (cur != null) {
-            carte[index] = cur.getCard();
+            carte[index] = new Node<Card>(cur.getValue());
             cur = cur.getNext();
             index++;
         }
@@ -33,7 +33,7 @@ public class Deck extends List {
         for (int i = n - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
 
-            Card temp = carte[i];
+            Node<Card> temp = carte[i];
             carte[i] = carte[j];
             carte[j] = temp;
         }
@@ -41,7 +41,7 @@ public class Deck extends List {
         cur = this.getHead();
         index = 0;
         while (cur != null) {
-            cur.setCard(carte[index]);
+            cur.setValue(carte[index].getValue());
             cur = cur.getNext();
             index++;
         }

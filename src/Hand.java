@@ -1,4 +1,4 @@
-public class Hand extends List{
+/*public class Hand extends List{
     public Hand(){
         super();
     }
@@ -13,7 +13,7 @@ public class Hand extends List{
             return;
         }
 
-        Node cur = this.getHead();
+        Node<Card> cur = this.getHead();
         int cont = 0;
 
         while (cur != null && cont < index) {
@@ -40,6 +40,9 @@ public class Hand extends List{
         }
     }
 
+
+
+
     public void play(Card c) {
         if (this.getHead() == null) {
             System.out.println("La mano è vuota");
@@ -48,7 +51,6 @@ public class Hand extends List{
 
         Node cur = this.getHead();
         boolean found = false;
-
 
         while (cur != null) {
 
@@ -76,4 +78,4 @@ public class Hand extends List{
         }
     }
 
-}
+}*/

@@ -1,43 +1,40 @@
-public class Node {
-    private Card carta;
-    private Node next;
-    private Node prev;
+public class Node <T>{
+    private T value;
+    private Node<T> next;
+    private Node<T> prev;
 
-    public Node(Card c){
+    public Node(T c){
         this.next = null;
         this.prev = null;
-        this.carta = c;
+        this.value = c;
     }
 
-    public Card getCard(){
-        return this.carta;
+    public T getValue(){
+        return this.value;
     }
 
-    public void setCard(Card c){
-        this.carta = c;
+    public void setValue(T v){
+        this.value = v;
     }
 
-    public int getValue(){
-        return this.carta.getValue();
-    }
-
-    public Color getColor(){
-        return this.carta.getColor();
-        }
-
-    public void setNext(Node n){
+    public void setNext(Node<T> n){
         this.next = n;
     }
 
-    public void setPrev(Node p){
+    public void setPrev(Node<T> p){
         this.prev = p;
     }
 
-    public Node getNext(){
+    public Node<T> getNext(){
         return this.next;
     }
 
-    public Node getPrev(){
+    public Node<T> getPrev(){
         return this.prev;
+    }
+
+    @Override
+    public String toString(){
+        return value.toString();
     }
 }

@@ -22,4 +22,10 @@ public class Card {
     public Color getColor(){
         return this.color;
     }
+
+    @Override
+    public String toString(){
+        String  finalString = "";
+        return finalString += "[ colore: " + this.color + " <-> valore: " + this.value + "]" ;
+    }
 }
