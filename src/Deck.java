@@ -1,8 +1,19 @@
 import java.util.Random;
 
-public class Deck<Card> extends List<Card> {
+public class Deck extends List<Card> {
     public Deck() {
         super();
+    }
+
+    // per ogni colore: un solo 0 e due carte per ogni altro valore (1..12)
+    public void createFullDeck() {
+        for (Color c : Color.values()) {
+            this.push(new Node<Card>(new Card(0, c)));
+            for (int v = 1; v <= 12; v++) {
+                this.push(new Node<Card>(new Card(v, c)));
+                this.push(new Node<Card>(new Card(v, c)));
+            }
+        }
     }
 
     public void push(Node<Card> g) {
@@ -19,12 +30,12 @@ public class Deck<Card> extends List<Card> {
             return;
         }
 
-        Node<Card>[] carte = new Node[this.size()];
+        Card[] carte = new Card[n];
         Node<Card> cur = this.getHead();
         int index = 0;
 
         while (cur != null) {
-            carte[index] = new Node<Card>(cur.getValue());
+            carte[index] = cur.getValue();
             cur = cur.getNext();
             index++;
         }
@@ -33,7 +44,7 @@ public class Deck<Card> extends List<Card> {
         for (int i = n - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
 
-            Node<Card> temp = carte[i];
+            Card temp = carte[i];
             carte[i] = carte[j];
             carte[j] = temp;
         }
@@ -41,7 +52,7 @@ public class Deck<Card> extends List<Card> {
         cur = this.getHead();
         index = 0;
         while (cur != null) {
-            cur.setValue(carte[index].getValue());
+            cur.setValue(carte[index]);
             cur = cur.getNext();
             index++;
         }

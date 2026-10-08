@@ -11,6 +11,18 @@ public class List <T>{
         return this.head;
     }
 
+    protected Node<T> getTail(){
+        return this.tail;
+    }
+
+    protected void setHead(Node<T> head){
+        this.head = head;
+    }
+
+    protected void setTail(Node<T> tail){
+        this.tail = tail;
+    }
+
     protected void insert(int index, Node<T> c){
         if(index <= 0){
             addHead(c);
@@ -24,54 +36,42 @@ public class List <T>{
             if(cur == null){
                 addTail(c);
             }else {
-                Node<T> newItem = new Node(c);
-                newItem.setNext(cur);
-                newItem.setPrev(cur.getPrev());
-                cur.getPrev().setNext(newItem);
-                cur.setPrev(newItem);
+                // il nodo c viene inserito direttamente (prima veniva creato un Node dentro un Node)
+                c.setNext(cur);
+                c.setPrev(cur.getPrev());
+                cur.getPrev().setNext(c);
+                cur.setPrev(c);
             }
         }
     }
 
-    protected Node<T> getTail(){
-        return this.tail;
-    }
-
-    protected void setHead(Node<T> head){
-        this.head = head;
-    }
-
-    protected void setTail(Node<T> tail){
-        this.tail = tail;
-    }
-
     protected void addHead(Node<T> c){
-        Node<T> newCard = c;
-
-        newCard.setNext(head);
+        c.setPrev(null);
+        c.setNext(head);
 
         if(this.head == null){
-            this.head = newCard;
-            this.tail = head;
+            this.head = c;
+            this.tail = c;
             return;
-        }else if(head != null){
-            head.setPrev(newCard);
         }
-        head = newCard;
+
+        head.setPrev(c);
+        head = c;
     }
 
     protected void addTail(Node<T> c){
-        Node<T> newCard = c;
+        c.setNext(null);
 
         if(this.head == null){
-            this.head = newCard;
-            this.tail = head;
+            c.setPrev(null);
+            this.head = c;
+            this.tail = c;
             return;
         }
 
-        newCard.setPrev(this.tail);
-        this.tail.setNext(newCard);
-        this.tail = this.tail.getNext();
+        c.setPrev(this.tail);
+        this.tail.setNext(c);
+        this.tail = c;
     }
 
     protected Node<T> removeHead(){
@@ -88,6 +88,8 @@ public class List <T>{
             this.head = this.head.getNext();
             this.head.setPrev(null);
         }
+        removedElement.setNext(null);
+        removedElement.setPrev(null);
         return removedElement;
     }
 
@@ -105,6 +107,8 @@ public class List <T>{
             this.tail = this.tail.getPrev();
             this.tail.setNext(null);
         }
+        removedElement.setNext(null);
+        removedElement.setPrev(null);
         return removedElement;
     }
 
@@ -121,6 +125,10 @@ public class List <T>{
 
     @Override
     public String toString() {
+        if (this.head == null) {
+            return "[ lista vuota ]";
+        }
+
         String finalString = " ";
         Node<T> cur = head;
 
@@ -129,10 +137,10 @@ public class List <T>{
         finalString += "[ ";
 
         while (cur != null) {
-            finalString += head.toString();
+            finalString += cur.toString() + " ";
             cur = cur.getNext();
         }
-        finalString += " ]";
+        finalString += "]";
         return finalString;
     }
 }

@@ -1,16 +1,27 @@
-/*public class Hand extends List{
-    public Hand(){
+import java.util.Random;
+
+public class Hand extends List<Card> {
+    private Random random;
+
+    public Hand() {
         super();
+        this.random = new Random();
     }
 
-    public void playWithIndex(int index) {
+    // ingresso in coda
+    public void addCard(Node<Card> c) {
+        this.addTail(c);
+    }
+
+    // uscita: toglie la carta in posizione index e la restituisce
+    public Node<Card> playWithIndex(int index) {
         if (this.getHead() == null) {
             System.out.println("la lista è vuota");
-            return;
+            return null;
         }
         if (index < 0) {
             System.out.println("l'indice non è valido");
-            return;
+            return null;
         }
 
         Node<Card> cur = this.getHead();
@@ -23,59 +34,74 @@
 
         if (cur == null) {
             System.out.println("l'indice è fuori dai limiti");
-            return;
+            return null;
         }
 
         if (cur == this.getHead()) {
             this.removeHead();
-        }
-
-        else if (cur == this.getTail()) {
+        } else if (cur == this.getTail()) {
             this.removeTail();
-        }
-
-        else {
+        } else {
             cur.getPrev().setNext(cur.getNext());
             cur.getNext().setPrev(cur.getPrev());
+            cur.setNext(null);
+            cur.setPrev(null);
         }
+        return cur;
     }
 
-
-
-
-    public void play(Card c) {
-        if (this.getHead() == null) {
-            System.out.println("La mano è vuota");
-            return;
-        }
-
-        Node cur = this.getHead();
-        boolean found = false;
+    // uscita casuale: sceglie a caso una tra le carte giocabili.
+    // Se onlyTen è true sono giocabili solo i 10 (quando c'è un malus da pescare).
+    // Restituisce null se nessuna carta è giocabile.
+    public Node<Card> playRandom(Card top, boolean onlyTen) {
+        int playable = 0;
+        Node<Card> cur = this.getHead();
 
         while (cur != null) {
-
-            if (cur.getCard().equals(c)) {
-                found = true;
-                break;
+            if (canPlay(cur.getValue(), top, onlyTen)) {
+                playable++;
             }
             cur = cur.getNext();
         }
 
-        if (!found) {
-            System.out.println("La carta non è presente nella mano");
-            return;
+        if (playable == 0) {
+            return null;
         }
 
-        if (cur == this.getHead()) {
-            this.removeHead();
+        int choice = this.random.nextInt(playable);
+        int index = 0;
+        cur = this.getHead();
+
+        while (cur != null) {
+            if (canPlay(cur.getValue(), top, onlyTen)) {
+                if (choice == 0) {
+                    return this.playWithIndex(index);
+                }
+                choice--;
+            }
+            cur = cur.getNext();
+            index++;
         }
-        else if (cur == this.getTail()) {
-            this.removeTail();
-        }
-        else {
-            cur.getPrev().setNext(cur.getNext());
-            cur.getNext().setPrev(cur.getPrev());
-        }
+        return null;
     }
 
-}*/
+    private boolean canPlay(Card c, Card top, boolean onlyTen) {
+        if (onlyTen) {
+            return c.getValue() == 10;
+        }
+        return c.getValue() == top.getValue() || c.getColor() == top.getColor();
+    }
+
+    @Override
+    public String toString() {
+        String finalString = "[ ";
+        Node<Card> cur = this.getHead();
+
+        while (cur != null) {
+            finalString += cur.toString() + " ";
+            cur = cur.getNext();
+        }
+        finalString += "]";
+        return finalString;
+    }
+}
